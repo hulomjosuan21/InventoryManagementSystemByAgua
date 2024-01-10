@@ -1,0 +1,69 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS imsdb;
+
+-- Use the created database
+USE imsdb;
+
+-- Create apptable
+CREATE TABLE IF NOT EXISTS apptable (
+    appID INT AUTO_INCREMENT PRIMARY KEY,
+    currentUser VARCHAR(45) NOT NULL
+);
+
+-- Create categorytable
+CREATE TABLE IF NOT EXISTS categorytable (
+    categoryID INT AUTO_INCREMENT PRIMARY KEY,
+    categoryName VARCHAR(45) NOT NULL UNIQUE,
+    dateCreated DATE NOT NULL
+);
+
+-- Create inventorytable
+CREATE TABLE IF NOT EXISTS inventorytable (
+    productID INT AUTO_INCREMENT PRIMARY KEY,
+    Category VARCHAR(45) NOT NULL,
+    ProductName VARCHAR(45) NOT NULL,
+    Description VARCHAR(45) NOT NULL,
+    Quantity INT NOT NULL,
+    RetailPrice DOUBLE NOT NULL,
+    DateOfPurchase DATE NOT NULL,
+    UNIQUE (Category, ProductName)
+);
+
+-- Create purchasedtable
+CREATE TABLE IF NOT EXISTS purchasedtable (
+    invoiceNumber VARCHAR(12),
+    product VARCHAR(12),
+    discountPercent FLOAT,
+    quantity INT,
+    subtotal DOUBLE,
+    total DOUBLE,
+    purchasedDate DATE
+);
+
+-- Create userstable
+CREATE TABLE IF NOT EXISTS userstable (
+    userId VARCHAR(45) PRIMARY KEY,
+    firstname VARCHAR(45) NOT NULL,
+    lastname VARCHAR(45) NOT NULL,
+    username VARCHAR(45) NOT NULL,
+    password VARCHAR(45) NOT NULL,
+    birthdate DATE NOT NULL,
+    gender VARCHAR(45) NOT NULL,
+    profileImgPath VARCHAR(45) NOT NULL,
+    userType INT NOT NULL
+);
+
+INSERT IGNORE INTO apptable (currentUser) VALUES ('nullUser');
+
+INSERT IGNORE INTO userstable (userId, firstname, lastname, username, password, birthdate, gender, profileImgPath, userType)
+VALUES 
+('superuser.wan', 'user', 'admin', 'admin', '123', '2024-01-01', 'Male', 'admin.jpg', 0),
+('user001.wan', 'female', 'user', 'Female@123', 'Password@123', '2024-01-01', 'Female', 'female.jpg', 1);
+
+INSERT IGNORE INTO inventorytable (Category, ProductName, Description, Quantity, RetailPrice, DateOfPurchase)
+VALUES 
+('Electronics', 'Laptop', 'High-performance laptop', 10, 1200.50, '2023-12-15'),
+('Clothing', 'T-Shirt', 'Cotton round neck t-shirt', 100, 15.99, '2023-11-25'),
+('Electronics', 'Headphones', 'Wireless noise-canceling headphones', 50, 199.99, '2023-10-10'),
+('Books', 'Python Programming', 'Introduction to Python programming', 30, 29.99, '2023-09-05'),
+('Kitchen', 'Blender', 'High-speed blender', 20, 79.99, '2023-08-20');
